@@ -20,3 +20,6 @@ Enhancements that can be done:
 - Demonstration of Elastic and Inelastic collisions
 - Fill color, Trace path
 - Simulation of 3D bodies
+
+
+http://en.wikipedia.org/wiki/Dynamic_simulation
