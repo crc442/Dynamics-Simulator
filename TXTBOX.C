@@ -16,14 +16,14 @@ int leftx,lefty,rightx;
 
 
 
-struct txtfld
-{
-	int x;
-	int y;
-	int r;
-	char *feild_name;
-};
-struct txtfld t1;
+// struct txtfld
+// {
+// 	int x;
+// 	int y;
+// 	int r;
+// 	char *feild_name;
+// };
+// struct txtfld t1;
 void draw_txtbox(int leftx,int lefty,int rightx,char *fname)
 {
 	 int pos=0,insflg=0,tempflg=0;
