@@ -14,6 +14,17 @@
 char *ch[1]={'\0'};
 int leftx,lefty,rightx;
 
+void draw();
+void showbox(int,int,int,char *);
+void hidebox(int,int,int,char *);
+
+void cursor(char *,int,int,int);    //draw & erase cursor
+void specialkey(char *,int,int,int,int *,int *,int *);   // home,end,left,right,del,insert
+void keycheck(char *,int *,int,int *);
+void backspace(char *,int *,int,int,int);
+void insert(char *,int *,int,int,int);
+void notback(char *,int *,int *,int,int);
+char* gettext1(void);
 
 
 // struct txtfld
