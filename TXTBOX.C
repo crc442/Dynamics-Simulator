@@ -174,6 +174,18 @@ void hidebox(int lx,int ly,int rx,char *name)
 
 }
 
+void cursor(char *fchr,int fcol,int frow,int fpos)
+{
+	while (!kbhit())
+	{
+		setcolor(0);
+		outtextxy(strlen(fchr)*8+fcol-fpos*8,frow+2,"_");
+		delay(100);
+		setcolor(15);
+		outtextxy(strlen(fchr)*8+fcol-fpos*8,frow+2,"_");
+		delay(100);
+	}
+}
 
 
 
