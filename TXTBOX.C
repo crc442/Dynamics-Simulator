@@ -159,6 +159,21 @@ void showbox(int lx,int ly,int rx,char *name)
 
 }
 
+void hidebox(int lx,int ly,int rx,char *name)
+{
+	 setlinestyle(0,0,1);
+
+	 setfillstyle(1,BLACK);
+	 bar(lx-3,ly-3,rx+3,ly+23);
+	 setcolor(BLACK);
+	 outtextxy(lx,ly-13,name);
+	 bar(lx,ly,rx,ly+20);
+	 rectangle(lx,ly,rx,ly+20);
+	 line(rx-1,ly,rx-1,ly+20);
+	 line(lx,ly+20-1,rx,ly+20-1);
+
+}
+
 
 
 
