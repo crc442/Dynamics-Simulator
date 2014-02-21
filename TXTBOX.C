@@ -187,7 +187,34 @@ void cursor(char *fchr,int fcol,int frow,int fpos)
 	}
 }
 
+void notback(char *fchr,int *fi,int *fpos,int fcol,int frow)
+{
+	char c[1];
+	int a,b,x,y;
 
+	a=*fpos;
+	b=*fi;
+	if(*fpos>0)
+	{
+		 setfillstyle(1,15);
+		 bar(strlen(fchr)*8+fcol-*(fpos) * 8-8,frow,strlen(fchr)*8+fcol-*fpos*8-1,frow+7);
+		 *(fchr + (b - a))=*(fchr + b);
+		 *(fchr + b)='\x0';
+		 sprintf(c,"%c",*(fchr + (b - a)));
+		 setcolor(0);
+		 outtextxy(strlen(fchr)*8+fcol-a*8,frow,c);
+		 a=a-1;
+		 b=b-1;
+	}
+	else
+	{
+		sprintf(c,"%c",*(fchr+ b));
+		setcolor(0);
+		outtextxy(strlen(fchr)*8+fcol-8-a*8,frow,c);
+	}
+	*fpos=a;
+	*fi=b;
+}
 
 void main()
 {
