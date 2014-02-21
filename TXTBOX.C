@@ -139,6 +139,29 @@ void draw_txtbox(int leftx,int lefty,int rightx,char *fname)
 }
 
 
+void showbox(int lx,int ly,int rx,char *name)
+{
+	 setlinestyle(0,0,1);
+
+	 setcolor(WHITE);
+	 setfillstyle(1,LIGHTGRAY);
+	 bar(lx-3,ly-3,rx+3,ly+23);
+
+	 setfillstyle(1,WHITE);
+	 outtextxy(lx,ly-13,name);
+	 bar(lx,ly,rx,ly+20);
+
+	 setcolor(BLACK);
+	 rectangle(lx,ly,rx,ly+20);
+
+	 line(rx-1,ly,rx-1,ly+20);
+	 line(lx,ly+20-1,rx,ly+20-1);
+
+}
+
+
+
+
 void main()
 {
 	int driver=EGA;
