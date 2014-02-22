@@ -192,8 +192,8 @@ void notback(char *fchr,int *fi,int *fpos,int fcol,int frow)
 	char c[1];
 	int a,b,x,y;
 
-	// a=*fpos;
-	// b=*fi;
+	a=*fpos;
+	b=*fi;
 	if(*fpos>0)
 	{
 		 setfillstyle(1,15);
