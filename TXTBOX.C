@@ -216,6 +216,28 @@ void notback(char *fchr,int *fi,int *fpos,int fcol,int frow)
 	*fi=b;
 }
 
+void insert(char *fchr,int *fi,int fpos,int frow,int fcol)
+{
+	 char c[1];
+	 setfillstyle(SOLID_FILL,WHITE);
+	 bar(strlen(fchr)*8+fcol-fpos*8-8,frow,strlen(fchr)*8+fcol,frow+8);
+	 *(fchr + (*fi+1))=*(fchr + *fi);
+	 *(fchr + (*fi+2))='\x0';
+	 while(*fi>strlen(fchr)-fpos-2)
+	 {
+		*(fchr + *fi)=*(fchr + (*fi-1));
+		sprintf(c,"%c",*(fchr + *fi));
+		outtextxy(*fi * 8 +fcol,frow,c);
+		*fi=*fi-1;
+	 }
+	 *fi=strlen(fchr);
+	 *(fchr + (*fi-fpos-2))=*(fchr + (*fi-1));
+	 *(fchr + (*fi-1))='\x0';
+	 sprintf(c,"%c",*(fchr + (*fi-fpos-2)));
+	 outtextxy(*fi * 8 + fcol-(fpos+2)*8,frow,c);
+	 *fi=*fi-2;
+}
+
 void main()
 {
 	int driver=EGA;
