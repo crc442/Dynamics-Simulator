@@ -200,9 +200,7 @@ void notback(char *fchr,int *fi,int *fpos,int fcol,int frow)
 		 bar(strlen(fchr)*8+fcol-*(fpos) * 8-8,frow,strlen(fchr)*8+fcol-*fpos*8-1,frow+7);
 		 *(fchr + (b - a))=*(fchr + b);
 		 *(fchr + b)='\x0';
-		 sprintf(c,"%c",*(fchr + (b - a)));
-		 setcolor(0);
-		 outtextxy(strlen(fchr)*8+fcol-a*8,frow,c);
+		 
 		 a=a-1;
 		 b=b-1;
 	}
