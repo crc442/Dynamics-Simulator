@@ -238,6 +238,29 @@ void insert(char *fchr,int *fi,int fpos,int frow,int fcol)
 	 *fi=*fi-2;
 }
 
+void backspace(char *fchr,int *fi,int fpos,int frow,int fcol)
+{
+	 char c[1];
+	 if (*fi!=0 && (*fi-fpos!=0))
+	 {
+		 *(fchr + *fi)='\x0';
+		 setfillstyle(SOLID_FILL,15);
+		 bar(strlen(fchr)*8+fcol-fpos*8-8,frow,strlen(fchr)*8+fcol,frow+8);
+		 *fi=strlen(fchr)-fpos-1;
+		 while(*(fchr + *fi)!='\0')
+		 {
+			*(fchr + *fi) = *(fchr + (*fi + 1));
+			sprintf(c,"%c",*(fchr + *fi));
+			outtextxy(*fi * 8 + fcol,frow,c);
+			*fi = *fi + 1;
+		 }
+		 *fi=strlen(fchr);
+	 }
+	 *(fchr + *fi)='\x0';
+	 *fi=*fi-1;
+}
+
+
 void main()
 {
 	int driver=EGA;
