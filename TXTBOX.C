@@ -266,7 +266,7 @@ void keycheck(char *fchr,int *fi,int fj,int *fl)
 		 {
 			 case 0:
 			 //nothing
-			 
+
 			 case 1:
 			 if(!isalpha(*(fchr+ *fi)))
 			 {
@@ -312,6 +312,11 @@ void keycheck(char *fchr,int *fi,int fj,int *fl)
 		 }
 		 break;
 	}
+}
+
+char* gettext1()
+{
+	return(*ch);
 }
 
 
