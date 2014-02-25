@@ -265,6 +265,8 @@ void keycheck(char *fchr,int *fi,int fj,int *fl)
 		 switch(fj)
 		 {
 			 case 0:
+			 //nothing
+			 
 			 case 1:
 			 if(!isalpha(*(fchr+ *fi)))
 			 {
@@ -281,6 +283,7 @@ void keycheck(char *fchr,int *fi,int fj,int *fl)
 			break;
 
 		 case 2:
+		 //nothing
 
 		 case 5:
 		 if(*(fchr+ *fi)=='.' || *(fchr+ *fi)=='-')break;
@@ -293,6 +296,7 @@ void keycheck(char *fchr,int *fi,int fj,int *fl)
 		 }
 		 break;
 		 case 3:
+		 //nothing
 		 case 4:
 		 if(!isalnum(*(fchr + *fi)))
 		 {
