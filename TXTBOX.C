@@ -260,6 +260,56 @@ void backspace(char *fchr,int *fi,int fpos,int frow,int fcol)
 	 *fi=*fi-1;
 }
 
+void keycheck(char *fchr,int *fi,int fj,int *fl)
+{
+		 switch(fj)
+		 {
+			 case 0:
+			 case 1:
+			 if(!isalpha(*(fchr+ *fi)))
+			 {
+				  *fi=*fi-1;
+				  if (isspace(*(fchr+ (*fi+1))))
+				  {
+					  *fi=*fi+1;
+					  break;
+				  }
+				 *(fchr+ (*fi+1))='\x0';
+				 *fl=1;
+				 return;
+			}
+			break;
+
+		 case 2:
+
+		 case 5:
+		 if(*(fchr+ *fi)=='.' || *(fchr+ *fi)=='-')break;
+		 if(!isdigit(*(fchr+ *fi)))
+		 {
+			 *fi=*fi-1;
+			 *(fchr+ (*fi+1))='\x0';
+			 *fl=1;
+			 return;
+		 }
+		 break;
+		 case 3:
+		 case 4:
+		 if(!isalnum(*(fchr + *fi)))
+		 {
+			*fi=*fi-1;
+			if (isspace(*(fchr + (*fi + 1))))
+			{
+			  *fi=*fi+1;
+			  break;
+			}
+			*(fchr + (*fi + 1))='\x0';
+			*fl=1;
+			return;
+		 }
+		 break;
+	}
+}
+
 
 void main()
 {
