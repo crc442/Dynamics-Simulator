@@ -314,6 +314,71 @@ void keycheck(char *fchr,int *fi,int fj,int *fl)
 	}
 }
 
+void specialkey(char *fchr,int fcol,int frow,int ftemp,int *fpos,int *fi,int *finsflg)
+{
+	char c[1];
+	switch(ftemp)
+	{
+		 case HOME:
+				setcolor(15);
+				outtextxy(strlen(fchr)*8+fcol-*fpos*8,frow+2,"_");
+				*fpos=strlen(fchr);
+				*fi=*fi-1;
+				break;
+		 case END:
+				setcolor(15);
+		      outtextxy(strlen(fchr)*8+fcol-*fpos*8,frow+2,"_");
+				*fpos=0;
+				*fi=*fi-1;
+		      break;
+		 case LEFT:
+				if((*fi-*fpos)>0)
+				{
+				  setcolor(15);
+				  outtextxy(strlen(fchr)*8+fcol-*fpos*8,frow+2,"_");
+				  *fpos=*fpos+1;
+				}
+				*fi=*fi-1;
+				break;
+		 case RIGHT:
+				if(*fpos>0)
+				{
+					 setcolor(15);
+					 outtextxy(strlen(fchr)*8+fcol-*fpos*8,frow+2,"_");
+					 *fpos=*fpos-1;
+				}
+				*fi=*fi-1;
+				break;
+		 case INSERT:
+			*finsflg=*finsflg+1;
+			*fi=*fi-1;
+			break;
+		 case DEL:
+			 if(*fpos!=0)
+			 {
+				setfillstyle(SOLID_FILL,15);
+				bar(strlen(fchr)*8+fcol-*fpos*8,frow,strlen(fchr)*8+fcol,frow+8);
+				*fi=*fpos;
+				setcolor(0);
+				while(*fpos>0)
+				{
+					 fchr[strlen(fchr)-*fpos]=fchr[strlen(fchr)-*fpos+1];
+					 *fpos=*fpos-1;
+					 sprintf(c,"%c",fchr[strlen(fchr)-*fpos]);
+					 outtextxy(strlen(fchr)*8+fcol-*fpos*8-8,frow,c);
+				}
+				*fpos=*fi-1;
+				*fi=strlen(fchr)-1;
+			 }
+			 else
+				*fi=*fi-1;
+				 break;
+		 default:
+				break;
+	}
+}
+
+
 char* gettext1()
 {
 	return(*ch);
