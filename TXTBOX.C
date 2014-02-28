@@ -385,26 +385,26 @@ char* gettext1()
 }
 
 
-void main()
-{
-	int driver=EGA;
-	int mode=EGAHI;
-	int i,j;
-	char *str[1];
+// void main()
+// {
+// 	int driver=EGA;
+// 	int mode=EGAHI;
+// 	int i,j;
+// 	char *str[1];
 
-	j=0;
-	initgraph(&driver,&mode,"\\tc\\bgi");
-//	TextField t1(120,200,250);
+// 	j=0;
+// 	initgraph(&driver,&mode,"\\tc\\bgi");
+// //	TextField t1(120,200,250);
 
-	setfillstyle(1,7);
-	bar(0,0,getmaxx(),getmaxy());
-	setcolor(0);
-	settextstyle(1,0,2);
-	draw_txtbox(200,180,450,"bodies");
-	strcpy(*str,gettext1());
-	for(i=0;i<=strlen(ch[j]);i++)
-	 printf("%c",str[j][i]);
-//    printf("%s",ch);
-//    outtextxy(20,20,ch);
-	getch();
-}
+// 	setfillstyle(1,7);
+// 	bar(0,0,getmaxx(),getmaxy());
+// 	setcolor(0);
+// 	settextstyle(1,0,2);
+// 	draw_txtbox(200,180,450,"bodies");
+// 	strcpy(*str,gettext1());
+// 	for(i=0;i<=strlen(ch[j]);i++)
+// 	 printf("%c",str[j][i]);
+// //    printf("%s",ch);
+// //    outtextxy(20,20,ch);
+// 	getch();
+// }
