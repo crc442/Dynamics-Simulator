@@ -26,15 +26,14 @@ void insert(char *,int *,int,int,int);
 void notback(char *,int *,int *,int,int);
 char* gettext1(void);
 
-
-// struct txtfld
-// {
-// 	int x;
-// 	int y;
-// 	int r;
-// 	char *feild_name;
-// };
-// struct txtfld t1;
+/*struct txtfld
+{
+	int x;
+	int y;
+	int r;
+	char *feild_name;
+};
+struct txtfld t1;*/
 void draw_txtbox(int leftx,int lefty,int rightx,char *fname)
 {
 	 int pos=0,insflg=0,tempflg=0;
@@ -138,7 +137,6 @@ void draw_txtbox(int leftx,int lefty,int rightx,char *fname)
 	 }while(ch[j][i]!='\x1B' || ch[j][i]!='\x0D');
 }
 
-
 void showbox(int lx,int ly,int rx,char *name)
 {
 	 setlinestyle(0,0,1);
@@ -158,7 +156,6 @@ void showbox(int lx,int ly,int rx,char *name)
 	 line(lx,ly+20-1,rx,ly+20-1);
 
 }
-
 void hidebox(int lx,int ly,int rx,char *name)
 {
 	 setlinestyle(0,0,1);
@@ -186,7 +183,6 @@ void cursor(char *fchr,int fcol,int frow,int fpos)
 		delay(100);
 	}
 }
-
 void notback(char *fchr,int *fi,int *fpos,int fcol,int frow)
 {
 	char c[1];
@@ -265,8 +261,6 @@ void keycheck(char *fchr,int *fi,int fj,int *fl)
 		 switch(fj)
 		 {
 			 case 0:
-			 //nothing
-
 			 case 1:
 			 if(!isalpha(*(fchr+ *fi)))
 			 {
@@ -283,7 +277,6 @@ void keycheck(char *fchr,int *fi,int fj,int *fl)
 			break;
 
 		 case 2:
-		 //nothing
 
 		 case 5:
 		 if(*(fchr+ *fi)=='.' || *(fchr+ *fi)=='-')break;
@@ -296,7 +289,6 @@ void keycheck(char *fchr,int *fi,int fj,int *fl)
 		 }
 		 break;
 		 case 3:
-		 //nothing
 		 case 4:
 		 if(!isalnum(*(fchr + *fi)))
 		 {
@@ -313,7 +305,6 @@ void keycheck(char *fchr,int *fi,int fj,int *fl)
 		 break;
 	}
 }
-
 void specialkey(char *fchr,int fcol,int frow,int ftemp,int *fpos,int *fi,int *finsflg)
 {
 	char c[1];
@@ -377,34 +368,31 @@ void specialkey(char *fchr,int fcol,int frow,int ftemp,int *fpos,int *fi,int *fi
 				break;
 	}
 }
-
-
 char* gettext1()
 {
 	return(*ch);
 }
 
+/*void main()
+{
+	int driver=EGA;
+	int mode=EGAHI;
+	int i,j;
+	char *str[1];
 
-// void main()
-// {
-// 	int driver=EGA;
-// 	int mode=EGAHI;
-// 	int i,j;
-// 	char *str[1];
+	j=0;
+	initgraph(&driver,&mode,"\\tc\\bgi");
+//	TextField t1(120,200,250);
 
-// 	j=0;
-// 	initgraph(&driver,&mode,"\\tc\\bgi");
-// //	TextField t1(120,200,250);
-
-// 	setfillstyle(1,7);
-// 	bar(0,0,getmaxx(),getmaxy());
-// 	setcolor(0);
-// 	settextstyle(1,0,2);
-// 	draw_txtbox(200,180,450,"bodies");
-// 	strcpy(*str,gettext1());
-// 	for(i=0;i<=strlen(ch[j]);i++)
-// 	 printf("%c",str[j][i]);
-// //    printf("%s",ch);
-// //    outtextxy(20,20,ch);
-// 	getch();
-// }
+	setfillstyle(1,7);
+	bar(0,0,getmaxx(),getmaxy());
+	setcolor(0);
+	settextstyle(1,0,2);
+	draw_txtbox(200,180,450,"bodies");
+	strcpy(*str,gettext1());
+	for(i=0;i<=strlen(ch[j]);i++)
+	 printf("%c",str[j][i]);
+//    printf("%s",ch);
+//    outtextxy(20,20,ch);
+	getch();
+}*/
