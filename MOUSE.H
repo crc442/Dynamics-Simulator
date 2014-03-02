@@ -16,3 +16,11 @@ int initmouse(void)
 	 int86(0x33,&i, &o);
 	 return(!o.x.ax);
 }
+void clearmousevalues(void)
+{
+	int button,x,y;
+		getmousepos(&button,&x,&y);
+	while(button&1)
+		getmousepos(&button,&x,&y);
+	return;
+}
