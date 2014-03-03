@@ -24,3 +24,15 @@ void clearmousevalues(void)
 		getmousepos(&button,&x,&y);
 	return;
 }
+void restircmouseptr(int x1, int y1,int x2, int y2)
+{
+	 i.x.ax = 7;
+	 i.x.cx = x1;
+	 i.x.dx = x2;
+	 int86(0x33,&i, &o);
+	 i.x.ax = 8;
+	 i.x.cx = y1;
+	 i.x.dx = y2;
+	 int86(0x33,&i,&o);
+	 return;
+}
