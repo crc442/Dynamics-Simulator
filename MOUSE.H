@@ -36,3 +36,16 @@ void restircmouseptr(int x1, int y1,int x2, int y2)
 	 int86(0x33,&i,&o);
 	 return;
 }
+
+void setmousepos()
+{
+	i.h.ah=2;
+	i.h.bh=0;
+	i.h.ch=0;
+	i.h.cl=0;
+	i.h.dh=0;
+	i.h.dl=0;
+	int86(0x10,&i, &o);
+
+	printf("X:%03d Y:%03d",mou_x,mou_y);
+}
