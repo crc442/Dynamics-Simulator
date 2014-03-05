@@ -49,3 +49,10 @@ void setmousepos()
 
 	printf("X:%03d Y:%03d",mou_x,mou_y);
 }
+
+void hidemouse(void)
+{
+	 i.x.ax = 2;
+	 int86(0x33,&i, &o);
+	 return;
+}
