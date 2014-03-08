@@ -52,7 +52,12 @@ void restircmouseptr(int x1, int y1,int x2, int y2)
 	 return;
 }
 
-
+void hidemouse(void)
+{
+	 i.x.ax = 2;
+	 int86(0x33,&i, &o);
+	 return;
+}
 void setmousepos()
 {
 	i.h.ah=2;
@@ -64,11 +69,4 @@ void setmousepos()
 	int86(0x10,&i, &o);
 
 	printf("X:%03d Y:%03d",mou_x,mou_y);
-}
-
-void hidemouse(void)
-{
-	 i.x.ax = 2;
-	 int86(0x33,&i, &o);
-	 return;
 }
