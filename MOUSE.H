@@ -16,6 +16,7 @@ int initmouse(void)
 	 int86(0x33,&i, &o);
 	 return(!o.x.ax);
 }
+
 void getmousepos(int *button,int *x,int *y)
 {
 	i.x.ax=3;
@@ -24,6 +25,7 @@ void getmousepos(int *button,int *x,int *y)
 	*x=o.x.cx;
 	*y=o.x.dx;
 }
+
 void clearmousevalues(void)
 {
 	int button,x,y;
@@ -32,6 +34,7 @@ void clearmousevalues(void)
 		getmousepos(&button,&x,&y);
 	return;
 }
+
 void showmouseptr(void)
 {
 	 i.x.ax = 1;
@@ -58,6 +61,7 @@ void hidemouse(void)
 	 int86(0x33,&i, &o);
 	 return;
 }
+
 void setmousepos()
 {
 	i.h.ah=2;
