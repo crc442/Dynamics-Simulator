@@ -18,10 +18,7 @@ clicked(struct button *obj)
 {
 	int top,left,right,bottom;
 
-	top=(*obj).y-10;
-	left=(*obj).x-10;
-	right=(*obj).x+65;
-	bottom=(*obj).y+10;
+	
 
 	setfillstyle(SOLID_FILL,LIGHTGRAY);
 	bar(left+8,top+8,right+8,bottom+8);
@@ -31,6 +28,10 @@ clicked(struct button *obj)
 
 	setfillstyle(1,GREEN);
 	bar(left+8,top,right+8,bottom);
+	top=(*obj).y-10;
+	left=(*obj).x-10;
+	right=(*obj).x+65;
+	bottom=(*obj).y+10;
 
 	setcolor(WHITE);
 	settextstyle(DEFAULT_FONT,HORIZ_DIR,1);
