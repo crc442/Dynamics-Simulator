@@ -3,7 +3,9 @@
 #include<graphics.h>
 #include<stdio.h>
 
-
+struct button add,gravtn,frictn,delt,exit1; //horiz
+struct button rad,asp,CVel,EReport,help; //vert
+extern int xm,ym;
 
 struct button
 {
@@ -11,3 +13,4 @@ struct button
 	int y;
 	char name[10];
 };
+
