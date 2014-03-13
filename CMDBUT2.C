@@ -39,6 +39,14 @@ clicked(struct button *obj)
 	return 0;
 }
 
+drawCommandButtons()
+{
+	setfillstyle(SOLID_FILL,0);
+	
+
+}
+
+
 vert_butt()
 {
 	int cmdtop=xm-60,cmdbot;
