@@ -37,3 +37,28 @@ clicked(struct button *obj)
 	outtextxy(left+12,top+8,(*obj).name);
 	return 0;
 }
+
+vert_butt()
+{
+	int cmdtop=xm-60,cmdbot;
+	int space=40;
+	cmdbot=80;
+
+	setbutton(&add,cmdtop,cmdbot,"Add Body");
+	drawbutton(&add);
+
+	setbutton(&gravtn,cmdtop,cmdbot+space,"Gravity");
+	drawbutton(&gravtn);
+
+	setbutton(&frictn,cmdtop,cmdbot+2*space,"Friction");
+	drawbutton(&frictn);
+
+	setbutton(&delt,cmdtop,cmdbot+3*space,"Delete");
+	drawbutton(&delt);
+
+	setbutton(&exit1,cmdtop,cmdbot+4*space,"EXIT");
+	drawbutton(&exit1);
+
+	return 0;
+
+}
