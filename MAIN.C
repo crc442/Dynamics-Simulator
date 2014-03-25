@@ -3,7 +3,7 @@
 #include<math.h>
 #include<stdlib.h>
 
-#include "C:\PROJECT\MOUSE.h"
-#include "C:\PROJECT\CMDBUT2.C"
-#include "C:\PROJECT\TXTBOX.c"
+#include "MOUSE.h"
+#include "CMDBUT2.C"
+#include "TXTBOX.c"
 
