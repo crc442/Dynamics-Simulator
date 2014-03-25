@@ -3,18 +3,16 @@
 #include<graphics.h>
 #include<stdio.h>
 
-
-
 struct button
 {
 	int x;
 	int y;
 	char name[10];
 };
+
 struct button add,gravtn,frictn,delt,exit1; //horiz
 struct button rad,asp,CVel,EReport,help; //vert
 extern int xm,ym;
-
 
 void setbutton(struct button *obj, int x,int y, char *name)
 {
@@ -22,6 +20,7 @@ void setbutton(struct button *obj, int x,int y, char *name)
 	(*obj).y=y;
 	strcpy((*obj).name,name);
 }
+
 void drawbutton(struct button *obj)
 {
 	int top,left,right,bottom;
@@ -75,6 +74,7 @@ hitbutton(struct button *obj, int x,int y)
 	else
 		return 0;
 }
+
 horiz_butt()
 {
 	int cmdtop=45,cmdbot;
@@ -97,7 +97,6 @@ horiz_butt()
 	drawbutton(&exit1);
 
 	return 0;
-
 }
 
 vert_butt()
@@ -122,7 +121,6 @@ vert_butt()
 	drawbutton(&exit1);
 
 	return 0;
-
 }
 
 drawCommandButtons()
@@ -136,12 +134,10 @@ drawCommandButtons()
 	vert_butt();
 //	horiz_butt();
 
-
 	setcolor(15);
 	settextjustify(CENTER_TEXT,TOP_TEXT);
 	settextstyle(TRIPLEX_FONT,HORIZ_DIR,4);
 	outtextxy(310,10,"DYNAMICS Simulation");
 
 	return 0;
-
 }
