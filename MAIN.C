@@ -12,4 +12,5 @@
 #define VX1 20      //Coordinates within which simulation is done
 #define VY1 50
 #define VX2 xm-80
+
 #define VY2 ym-50
