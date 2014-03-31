@@ -290,6 +290,26 @@ int get_accel(void)
 //	 delay(100);
 
   }
+  for (b1=0; b1<numb; ++b1)
+	{
+	 z = hypot(bod[b1].vx,bod[b1].vy);
+	 z = 1/(1+z*fric);                // air friction
+	 bod[b1].vy *= z;
+	 bod[b1].vx *= z;
+	 bod[b1].vy -= grav*bod[b1].m;             // gravity
+
+	 t = 0;
+	 if (bod[b1].cx < 0) { t=1;  bod[b1].cx = 0; }
+	 if (bod[b1].cx >MX) { t=1;  bod[b1].cx = MX; }
+	 if (bod[b1].cy <0) { t=1;  bod[b1].cy = 0; }
+	 if (bod[b1].cy >MY) { t=1;  bod[b1].cy = MY; }
+	 if (t)
+	 {
+		bod[b1].vx *= 0.9;          // slow it down!
+		bod[b1].vy *= 0.9;
+		bod[b1].w *= 0.9;
+	 }
+	 
 	for (b1=0; b1<numb; ++b1)
 	{
 	 z = hypot(bod[b1].vx,bod[b1].vy);
