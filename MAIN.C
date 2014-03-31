@@ -189,6 +189,132 @@ void main()
 
 }
 
+int get_accel(void)
+{
+  int t,t1,t2;
+  int i1,b1,b2,r;
+  static float x1,x2,y1,y2,v1,c1,w1,a;
+  static float z,ri;
+//  ri=1.0;
+
+  // test if any body bumped into a wall
+  for (b1=0; b1<numb; ++b1)
+  {
+	 x1=MX; x2=0;
+	 for (i1=0; i1<bod[b1].sides; ++i1)
+	 {
+		if (x1 > bod[b1].px[i1])
+		{        // find leftmost
+		  x1=bod[b1].px[i1];
+		  y1=bod[b1].py[i1];
+		}
+		if (x2 < bod[b1].px[i1])
+		{        // find rightmost
+		  x2=bod[b1].px[i1];
+		  y2=bod[b1].py[i1];
+		}
+	 }
+	 if (x2 > MX)
+	 {
+		x1=x2-MX;
+		y1=y2;
+		wall|=2;
+	 }
+	 else if(x1 > 0)
+		x1=0;
+
+	 else
+		wall|=8;
+
+	 if (x1)
+	 {
+		ri = bod[b1].ti/bod[b1].tm;
+		y1 = bod[b1].cy - y1;
+		w1 = bod[b1].w;
+		v1 = bod[b1].vx;
+		a = y1*y1/ri;
+		c1 = ((a-rest)*v1 - y1*(1+rest)*w1)/(a+1);
+		bod[b1].vx = c1;
+		bod[b1].w = y1*(c1 - v1)/ri + w1;    // - jw ??
+		bod[b1].cx -= scut*x1;
+	 }
+
+	 y1=MY; y2=0;
+
+	 for (i1=0; i1<bod[b1].sides; ++i1)
+	 {
+		if (y1 > bod[b1].py[i1])
+		{        // find bottommost
+//		  printf("y1=%f > %f\n",y1,bod[b1].py[i1]);
+		  x1=bod[b1].px[i1];
+		  y1=bod[b1].py[i1];
+		}
+		if (y2 < bod[b1].py[i1])
+		{        // find topmost
+		  x2=bod[b1].px[i1];
+		  y2=bod[b1].py[i1];
+		}
+
+	 }
+	 if (y2 > MY)
+	 {
+		y1=y2-MY;
+		x1=x2; wall|=1;
+	 }
+	 else if (y1 > 0) y1=0;
+	 else wall|=4;
+//	 printf("y1=%f y2=%f\n",y1,y2);
+//	 delay(100);
+	 y2=y1;
+//	 getch();
+	 if (y2)
+	 {
+
+		ri = bod[b1].ti/bod[b1].tm;
+		y1 = -bod[b1].cx + x1;
+		w1 = bod[b1].w;
+		v1 = bod[b1].vy;
+		a = y1*y1/ri;
+		c1 = ((a-rest)*v1 - y1*(1+rest)*w1)/(a+1);
+		bod[b1].vy = c1;
+		bod[b1].w = y1*(c1 - v1)/ri + w1;   // - jw ??
+		bod[b1].cy -= scut*y2;
+		/*----------------------------------------------------------
+			Do sliding friction on the floor (or ceiling)
+		*/
+		z = bod[b1].vx;              // relative sliding velocity
+		z *= 1-1/(slid+1);
+		bod[b1].vx -= z;
+	 }
+//	 printf("bod[%d]=(%f , %f , %f)",b1,bod[b1].cx,bod[b1].cy,bod[b1].a);
+//	 delay(100);
+
+  }
+	for (b1=0; b1<numb; ++b1)
+	{
+	 z = hypot(bod[b1].vx,bod[b1].vy);
+	 z = 1/(1+z*fric);                // air friction
+	 bod[b1].vy *= z;
+	 bod[b1].vx *= z;
+	 bod[b1].vy -= grav*bod[b1].m;             // gravity
+
+	 t = 0;
+	 if (bod[b1].cx < 0) { t=1;  bod[b1].cx = 0; }
+	 if (bod[b1].cx >MX) { t=1;  bod[b1].cx = MX; }
+	 if (bod[b1].cy <0) { t=1;  bod[b1].cy = 0; }
+	 if (bod[b1].cy >MY) { t=1;  bod[b1].cy = MY; }
+	 if (t)
+	 {
+		bod[b1].vx *= 0.9;          // slow it down!
+		bod[b1].vy *= 0.9;
+		bod[b1].w *= 0.9;
+	 }
+  }
+  return 0;
+}
+
+
+
 struct virt_co *actual_vir(int x, int y);
 struct virt_co *vir_actual(float x, float y);
 struct virt_co *actual_vir1(int x, int y);
