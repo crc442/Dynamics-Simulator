@@ -415,6 +415,22 @@ int get_accel(void)
   return 0;
 }
 
+int adjust_parts() {
+  int b,r,j;
+  float ca,sa,px,py,rx,ry;
+
+  for (b=0; b<numb; ++b)
+  {
+	 //	bod[b].jb = 0;         // num sub parts
+		bod[b].kx = bod[b].cx;
+		bod[b].ky = bod[b].cy;
+		bod[b].tm = bod[b].m;
+		bod[b].ti = bod[b].i*bod[b].m;
+  }
+  return 0;
+}
+
+
 
 
 struct virt_co *actual_vir(int x, int y);
