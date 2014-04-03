@@ -430,6 +430,34 @@ int adjust_parts() {
   return 0;
 }
 
+redraw_all(int flag,int sides,int col)
+{
+	int i;
+	int sidewall=50;
+	int sidewall2=80;
+//	hidemouse();
+	if(flag==0)
+	{
+		setcolor(0);
+		drawpoly(sides,p);
+	}
+	else
+	{
+		setcolor(col);
+	//	hidemouse();
+		drawpoly(sides,p);
+	}
+//	showmouseptr();
+	setcolor(15);
+	if (wall&1) line(20,50,xm-80,50);
+	if (wall&2) line(xm-80,50,xm-80,ym-50);
+	if (wall&4) line(xm-80,ym-50,20,ym-50);
+	if (wall&8) line(20,ym-50,20,50);
+
+	wall=0;
+
+	return 0;
+}
 
 
 
