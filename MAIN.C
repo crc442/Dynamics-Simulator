@@ -458,6 +458,74 @@ redraw_all(int flag,int sides,int col)
 
 	return 0;
 }
+add_poly()
+{
+	float radius,aspect;
+	int sides=4;
+	int b,i;
+	int bod_count=5;
+	float m,a;
+	char *in_str;
+	int bod_color;
+	radius=1.0;aspect=1.0;
+
+	randomize();
+  draw_txtbox(200,180,300,"No. of Bodies < 20");
+  bod_count=atoi(gettext1());
+  if(bod_count>20)bod_count=20;
+  if(bod_count<0)bod_count=0;
+
+  draw_txtbox(200,240,300,"Sides");
+  sides=atoi(gettext1());
+  if(sides>10)sides=10;
+  if(sides<0)sides=0;
+
+  draw_txtbox(200,300,300,"Mass");
+  m=atof(gettext1());
+  if(m<=0)m=50.0;
+//  printf("%f",m);
+
+  hidebox(200,180,300,"No. of Bodies < 20");
+  hidebox(200,240,300,"Sides");
+  hidebox(200,300,300,"Mass");
+
+  memset(&bod[numb],0,sizeof *bod);
+
+  bod[numb].cx = bod[numb].cy = 0.5;
+  bod[numb].vx=  bod[numb].vx= 0.05;
+
+//  m=3000.0;//PI*radius*radius*aspect*100.0;
+  a=radius*radius*aspect;
+
+  bod[numb].r = radius*aspect;
+  bod[numb].m = m;
+  bod[numb].i = a;
+  bod_color=rand()%15+1;
+  for (i=numb; i<numb+bod_count; ++i)
+  {
+	 bod[i]=bod[numb];
+	 bod[i].col=bod_color;//
+	 bod[i].sides=sides;
+	 if (i>numb)
+	 {
+		bod[i].cy = bod[i-1].cy+ 2*radius;  //placing the subsequent bodies on the screen such that they don't merge
+		bod[i].cx = bod[i-1].cx;
+	 }
+	 if (bod[i].cx+radius > MX) //if the stacked body exceeds the limit of Y-co ordinate
+	 {
+		bod[i].cy = 0.5;
+		bod[i].cx = bod[i-1].cx+ 2*radius*aspect;
+	 }
+	 for(b=0;b<bod[i].sides;++b)
+	 {
+		bod[i].sx[b]=radius*cos(PI*2*(b+0.5)/bod[i].sides)*-aspect;
+		bod[i].sy[b]=radius*sin(PI*2*(b+0.5)/bod[i].sides);
+	 }
+	 bod[i].w=0.0;
+	}
+	numb+=bod_count;
+	return 0;
+}
 
 
 
