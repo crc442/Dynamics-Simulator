@@ -528,16 +528,7 @@ add_poly()
 }
 
 
-struct virt_co *actual_vir(int x, int y)
-{
-	av->x=((1.0*av->x/xm)*(xm-100))+20;	//formula for windows x-co-ordinate in viewport
-	av->x=1.0*x/xm*MX;
 
-	av->y=((1.0*av->y*ym)/(ym-100))+50;//formula for windows y-co-ordinate in viewport
-	av->y=(1-1.0*y/ym)*MY;	//1-1.0*mou_y/ym)*MY;
-
-	return(av);
-}
 struct virt_co *actual_vir1(int x, int y)
 {
 	av->x=1.0*x/xm*MX;
@@ -554,6 +545,16 @@ struct virt_co *vir_actual(float x, float y)
 	va->y=(MY-y)*ym/MY;
 	va->y=((1.0*va->y/ym)*(ym-100))+50;//formula for windows y-co-ordinate in viewport
 	return(va);
+}
+struct virt_co *actual_vir(int x, int y)
+{
+	av->x=((1.0*av->x/xm)*(xm-100))+20;	//formula for windows x-co-ordinate in viewport
+	av->x=1.0*x/xm*MX;
+
+	av->y=((1.0*av->y*ym)/(ym-100))+50;//formula for windows y-co-ordinate in viewport
+	av->y=(1-1.0*y/ym)*MY;	//1-1.0*mou_y/ym)*MY;
+
+	return(av);
 }
 
 
