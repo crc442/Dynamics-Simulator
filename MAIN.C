@@ -3,17 +3,20 @@
 #include<math.h>
 #include<stdlib.h>
 
-#include "MOUSE.H"
-#include "CMDBUT2.C"
-#include "TXTBOX.C"
+#include "C:\PROJECT\MOUSE.h"
+#include "C:\PROJECT\CMDBUT2.C"
+#include "C:\PROJECT\TXTBOX.c"
 
 #define MX 40
 #define MY 30
+#define PI 3.1415926
+#define VV 0.1
+
 #define VX1 20      //Coordinates within which simulation is done
 #define VY1 50
 #define VX2 xm-80
-
 #define VY2 ym-50
+
 
 struct act_vir
 {
@@ -29,6 +32,120 @@ struct vir_act
 };
 struct vir_act *va;
 
+struct virt_co *actual_vir(int x, int y);
+struct virt_co *vir_actual(float x, float y);
+struct virt_co *actual_vir1(int x, int y);
+
+int xm,ym;
+int numb;
+int wall=5;
+int mou_x;int mou_y;
+
+typedef float fa[50];
+
+float scut=0.9;   // collision center adjustment
+float rest=1.0;   // coefficient of restitution (coefficient of static friction)
+float fric=0.001;   // air friction
+float grav=0.0;   // gravity
+float slid=0.0;       // sliding friction
+int delet=0;
+struct body
+{
+  int col;
+  int sides;
+  int r;
+  float m;           //  mass
+  float i;           //  coefficient of moment of inertia ( = I/m )
+  fa sx,sy;          //  shape (center of mass is always origin)
+  fa px,py;          //- corner points
+  float cx,cy,a;
+//  float ocx,ocy,oa;
+  float vx,vy,w;     //  velocity
+  float kx,ky;       //  my offset to pivot <or> abs tot center of mass
+  float tm,ti;       //- total mass and moment coeff
+};
+struct body bod[50];
+int p[50];
+
+introduction()
+{
+	int dec,sign;
+	char *str;
+	drawCommandButtons();
+	settextjustify(LEFT_TEXT,TOP_TEXT);
+
+	setcolor(0);
+	setfillstyle(SOLID_FILL,0);
+	bar(VX1-1,VY1-1,VX2+1,VY2+1);
+	setcolor(15);
+//	rectangle(VX1-1,VY1-1,VX2+1,VY2+1);
+	settextstyle(DEFAULT_FONT,HORIZ_DIR,1);
+	outtextxy(VX1-20,VY2,"0");
+	outtextxy(VX2-20,VY2+10,"40");
+	outtextxy(VX2-300,VY2+5,"X-axis");
+
+	outtextxy(VX1-20,VY1,"30");
+	settextstyle(DEFAULT_FONT,VERT_DIR,1);
+	outtextxy(VX1-5,VY2-200,"Y-axis");
+
+	setfillstyle(SOLID_FILL,1);
+	bar(20,ym-30,xm-2,ym-5);
+
+	settextstyle(DEFAULT_FONT,HORIZ_DIR,1);
+//	setcolor(0);
+	outtextxy(VX1+5,VY2+30,"Gravity:");
+	gcvt(grav,5,str);
+	outtextxy(VX1+70,VY2+30,str);
+
+	outtextxy(VX1+100,VY2+30,"Friction:");
+	gcvt(fric,5,str);
+	outtextxy(VX1+180,VY2+30,str);
+
+//	setcolor(15);
+	return 0;
+}
+
+int get_thrust(int b,int x, int y)
+{
+//	 static int x=0,y=0;
+	 int i,j,k;
+	 float d,t;
+	 if (b)
+	 {
+		av = actual_vir(x,y);
+
+		if (b<3)
+		{
+			d = 99999;                //  find closest body
+			for (j=i=0; i<numb; ++i)
+			{
+				t = hypot(av->x-bod[i].cx,av->y-bod[i].cy);
+				if (t < d)
+				{
+					d=t;
+					j=i;
+				}
+			}
+			if (d >0.00001)
+			{
+				bod[j].vx = (av->x-bod[j].cx)*VV;
+				bod[j].vy = (av->y-bod[j].cy)*VV;
+
+			}
+			//printf("%f",d);
+			if (b>1) bod[j].w = 0;           // stop spin
+		}
+		else
+		{                                // attract everything
+			for (j=0; j<numb; ++j)
+			{
+				bod[j].vx = (av->x-bod[j].cx)*VV*0.1;
+				bod[j].vy = (av->y-bod[j].cy)*VV*0.1;
+			}
+		}
+  }
+  return 0;
+}
 void main()
 {
 	int gd=DETECT,gm;
@@ -189,109 +306,22 @@ void main()
 
 }
 
-int get_accel(void)
-{
-  int t,t1,t2;
-  int i1,b1,b2,r;
-  static float x1,x2,y1,y2,v1,c1,w1,a;
-  static float z,ri;
-//  ri=1.0;
+int adjust_parts() {
+  int b,r,j;
+  float ca,sa,px,py,rx,ry;
 
-  // test if any body bumped into a wall
-  for (b1=0; b1<numb; ++b1)
+  for (b=0; b<numb; ++b)
   {
-	 x1=MX; x2=0;
-	 for (i1=0; i1<bod[b1].sides; ++i1)
-	 {
-		if (x1 > bod[b1].px[i1])
-		{        // find leftmost
-		  x1=bod[b1].px[i1];
-		  y1=bod[b1].py[i1];
-		}
-		if (x2 < bod[b1].px[i1])
-		{        // find rightmost
-		  x2=bod[b1].px[i1];
-		  y2=bod[b1].py[i1];
-		}
-	 }
-	 if (x2 > MX)
-	 {
-		x1=x2-MX;
-		y1=y2;
-		wall|=2;
-	 }
-	 else if(x1 > 0)
-		x1=0;
-
-	 else
-		wall|=8;
-
-	 if (x1)
-	 {
-		ri = bod[b1].ti/bod[b1].tm;
-		y1 = bod[b1].cy - y1;
-		w1 = bod[b1].w;
-		v1 = bod[b1].vx;
-		a = y1*y1/ri;
-		c1 = ((a-rest)*v1 - y1*(1+rest)*w1)/(a+1);
-		bod[b1].vx = c1;
-		bod[b1].w = y1*(c1 - v1)/ri + w1;    // - jw ??
-		bod[b1].cx -= scut*x1;
-	 }
-
-	 y1=MY; y2=0;
-
-	 for (i1=0; i1<bod[b1].sides; ++i1)
-	 {
-		if (y1 > bod[b1].py[i1])
-		{        // find bottommost
-//		  printf("y1=%f > %f\n",y1,bod[b1].py[i1]);
-		  x1=bod[b1].px[i1];
-		  y1=bod[b1].py[i1];
-		}
-		if (y2 < bod[b1].py[i1])
-		{        // find topmost
-		  x2=bod[b1].px[i1];
-		  y2=bod[b1].py[i1];
-		}
-
-	 }
-	 if (y2 > MY)
-	 {
-		y1=y2-MY;
-		x1=x2; wall|=1;
-	 }
-	 else if (y1 > 0) y1=0;
-	 else wall|=4;
-//	 printf("y1=%f y2=%f\n",y1,y2);
-//	 delay(100);
-	 y2=y1;
-//	 getch();
-	 if (y2)
-	 {
-
-		ri = bod[b1].ti/bod[b1].tm;
-		y1 = -bod[b1].cx + x1;
-		w1 = bod[b1].w;
-		v1 = bod[b1].vy;
-		a = y1*y1/ri;
-		c1 = ((a-rest)*v1 - y1*(1+rest)*w1)/(a+1);
-		bod[b1].vy = c1;
-		bod[b1].w = y1*(c1 - v1)/ri + w1;   // - jw ??
-		bod[b1].cy -= scut*y2;
-		/*----------------------------------------------------------
-			Do sliding friction on the floor (or ceiling)
-		*/
-		z = bod[b1].vx;              // relative sliding velocity
-		z *= 1-1/(slid+1);
-		bod[b1].vx -= z;
-	 }
-//	 printf("bod[%d]=(%f , %f , %f)",b1,bod[b1].cx,bod[b1].cy,bod[b1].a);
-//	 delay(100);
-
+	 //	bod[b].jb = 0;         // num sub parts
+		bod[b].kx = bod[b].cx;
+		bod[b].ky = bod[b].cy;
+		bod[b].tm = bod[b].m;
+		bod[b].ti = bod[b].i*bod[b].m;
   }
- 
- int get_accel(void)
+  return 0;
+}
+
+int get_accel(void)
 {
   int t,t1,t2;
   int i1,b1,b2,r;
@@ -415,20 +445,6 @@ int get_accel(void)
   return 0;
 }
 
-int adjust_parts() {
-  int b,r,j;
-  float ca,sa,px,py,rx,ry;
-
-  for (b=0; b<numb; ++b)
-  {
-	 //	bod[b].jb = 0;         // num sub parts
-		bod[b].kx = bod[b].cx;
-		bod[b].ky = bod[b].cy;
-		bod[b].tm = bod[b].m;
-		bod[b].ti = bod[b].i*bod[b].m;
-  }
-  return 0;
-}
 
 redraw_all(int flag,int sides,int col)
 {
@@ -458,6 +474,78 @@ redraw_all(int flag,int sides,int col)
 
 	return 0;
 }
+/*int set_old(void)
+{
+  int b;
+  for (b=0; b<numb; ++b)
+  {
+	 bod[b].ocx = bod[b].cx;
+	 bod[b].ocy = bod[b].cy;
+	 bod[b].oa  = bod[b].a ;
+  }
+  return 0;
+} */
+/*----------------------------------------------------------------------
+	computes new c,a  +=  new v,w
+*/
+int compute_new(void)
+{
+  int b;
+  float sa,ca;
+  float sx,sy;
+  for (b=0; b<numb; ++b)
+  {
+	bod[b].cx += bod[b].vx + (bod[b].cy - bod[b].cy)*bod[b].w;
+	bod[b].cy += bod[b].vy + (bod[b].cx - bod[b].cx)*bod[b].w;
+	bod[b].a  += bod[b].w;
+  }
+  return 0;
+}
+int compute_pxy(void)
+{
+  int i,b;
+  float cx,cy,ca,sa;
+
+  for (b=0; b<numb; ++b)
+  {
+	 cx = bod[b].cx;
+	 cy = bod[b].cy;
+	 ca = cos(bod[b].a);  //rotation
+	 sa = sin(bod[b].a);  //rotation
+
+	 for (i=0; i<bod[b].sides; ++i)
+	 {
+		bod[b].px[i] = cx + bod[b].sx[i]*ca - bod[b].sy[i]*sa;
+		bod[b].py[i] = cy + bod[b].sx[i]*sa + bod[b].sy[i]*ca;
+	 }
+  }
+  return 0;
+}
+int set_poly(int flag)
+{
+  int i,b;
+
+//  int sides=4;
+  for (b=0; b<numb; ++b)
+  {
+	 for (i=0; i<bod[b].sides; ++i)
+	 {
+			va=vir_actual(bod[b].px[i],bod[b].py[i]);
+			p[i*2]=va->x;	p[2*i+1]=va->y;
+	 }
+	 p[i*2]=p[0];	p[2*i+1]=p[1];
+	 if(flag==0)
+		 redraw_all(0,bod[b].sides+1,0);
+	 else if(flag==1 && b<numb-delet)
+		redraw_all(1,bod[b].sides+1,bod[b].col);
+  }
+  numb-=delet;
+  if(numb<0)numb=0;
+  delet=0;
+
+  return 0;
+}
+
 add_poly()
 {
 	float radius,aspect;
@@ -526,9 +614,16 @@ add_poly()
 	numb+=bod_count;
 	return 0;
 }
+struct virt_co *actual_vir(int x, int y)
+{
+	av->x=((1.0*av->x/xm)*(xm-100))+20;	//formula for windows x-co-ordinate in viewport
+	av->x=1.0*x/xm*MX;
 
+	av->y=((1.0*av->y*ym)/(ym-100))+50;//formula for windows y-co-ordinate in viewport
+	av->y=(1-1.0*y/ym)*MY;	//1-1.0*mou_y/ym)*MY;
 
-
+	return(av);
+}
 struct virt_co *actual_vir1(int x, int y)
 {
 	av->x=1.0*x/xm*MX;
@@ -546,18 +641,3 @@ struct virt_co *vir_actual(float x, float y)
 	va->y=((1.0*va->y/ym)*(ym-100))+50;//formula for windows y-co-ordinate in viewport
 	return(va);
 }
-struct virt_co *actual_vir(int x, int y)
-{
-	av->x=((1.0*av->x/xm)*(xm-100))+20;	//formula for windows x-co-ordinate in viewport
-	av->x=1.0*x/xm*MX;
-
-	av->y=((1.0*av->y*ym)/(ym-100))+50;//formula for windows y-co-ordinate in viewport
-	av->y=(1-1.0*y/ym)*MY;	//1-1.0*mou_y/ym)*MY;
-
-	return(av);
-}
-
-
-struct virt_co *actual_vir(int x, int y);
-struct virt_co *vir_actual(float x, float y);
-struct virt_co *actual_vir1(int x, int y);
