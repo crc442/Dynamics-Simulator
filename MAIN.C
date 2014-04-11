@@ -23,6 +23,7 @@ struct act_vir
 	float x;
 	float y;
 };
+
 struct act_vir *av;
 
 struct vir_act
@@ -30,8 +31,8 @@ struct vir_act
 	int x;
 	int y;
 };
-struct vir_act *va;
 
+struct vir_act *va;
 struct virt_co *actual_vir(int x, int y);
 struct virt_co *vir_actual(float x, float y);
 struct virt_co *actual_vir1(int x, int y);
@@ -49,6 +50,7 @@ float fric=0.001;   // air friction
 float grav=0.0;   // gravity
 float slid=0.0;       // sliding friction
 int delet=0;
+
 struct body
 {
   int col;
